@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Symfony</title>
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
@@ -16,8 +16,260 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h2>Symfony</h2>
+				</section>
+				<section>
+					<h2>Pré-requis</h2>
+					<p>PHP et ses extensions</p>
+					<p>Composer</p>
+					<p>MySQL</p>
+					<p>Comprendre les échanges client/serveur</p>
+				</section>
+				<section>
+					<h2>Installer Symfony CLI</h2>
+					<a href="https://symfony.com/download">Symfony CLI</a>
+				</section>
+				<section>
+					<h2>Check requirements</h2>
+					<div>
+						<pre><code>symfony check:requirements</code></pre>
+					</div>
+					<a href="https://symfony.com/doc/current/setup.html">Voir les extensions PHP nécessaires</a>
+				</section>
+				<section>
+					<h2>Créer un projet Symfony</h2>
+					<div>
+						<pre><code>symfony new my_project</code></pre>
+					</div>
+				</section>
+				<section>
+					<h2>Architecture d'un projet Symfony</h2>
+					<pre>
+						<code>
+						my_project/
+							.
+							├── bin/ # Fichiers exécutables
+							├── config/ # Configuration des services et des packages
+							├── public/ # Racine web
+							├── src/ # Code source PHP (contrôleurs, entités, etc.)
+							├── var/ # Fichiers temporaires (logs, cache, etc.)
+							├── vendor/ # Dépendances gérées par Composer
+							├── .env # Variables d'environnement
+							├── composer.json # Dépendances du projet
+							├── symfony.lock # Verrouillage des versions des packages
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h2>Démarrer le serveur</h2>
+					<div>
+						<pre>
+							<code>
+								symfony server:start
+								# ou
+								symfony serve
+							</code>
+						</pre>
+					</div>
+				</section>
+				<section>
+					<h2>Scaffolding</h2>
+					<p>Installer le bundle Maker pour générer du code</p>
+					<div>
+						<pre>
+							<code>composer require symfony/maker-bundle --dev</code>
+						</pre>
+					</div>
+					<p>Tous les bundles Symfony sont disponibles sur <a href="https://symfony.com/packages">la documentation officielle</a>.</p>
+				</section>
+				<section>
+					<img src="ressources/maker_bundle.png" alt="">
+				</section>
+				<section>
+					<section>
+						<h2>Architecture MVC</h2>
+						<ul>
+							<li>Modèle : Entités et gestion de la base de données</li>
+							<li>Vue : Templates Twig</li>
+							<li>Contrôleur : Logique métier et gestion des requêtes</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Contrôleur -> Vue</h2>
+						<ol>
+							<li>Le client envoie une requête HTTP au contrôleur.</li>
+							<li>Le contrôleur traite la requête puis renvoie une vue.</li>
+						</ol>
+					</section>
+					<section>
+						<h2>Vue -> Contrôleur -> Modèle</h2>
+						<ol>
+							<li>Le client interagit avec la vue (formulaire, lien, etc.).</li>
+							<li>La vue envoie une requête HTTP au contrôleur.</li>
+							<li>Le contrôleur traite la requête puis interagit avec le modèle.</li>
+						</ol>
+					</section>
+					<section>
+						<h4>Vue -> Controleur -> Modèle -> Controleur -> Vue</h4>
+						<ol>
+							<li>Le client interagit avec la vue (formulaire, lien, etc.).</li>
+							<li>La vue envoie une requête HTTP au contrôleur.</li>
+							<li>Le contrôleur traite la requête puis interagit avec le modèle.</li>
+							<li>Le modèle renvoie les données au contrôleur.</li>
+							<li>Le contrôleur renvoie une vue au client.</li>
+						</ol>
+					</section>
+					<section>
+						<h3>Controleur -> Modèle -> Controleur (API)</h3>
+						<ol>
+							<li>Le contrôleur reçoit une requête HTTP.</li>
+							<li>Le contrôleur interagit avec le modèle pour récupérer ou modifier des données.</li>
+							<li>Le modèle renvoie les données au contrôleur.</li>
+						</ol>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Mon premier contrôleur</h2>
+						<div>
+							<pre>
+								<code>
+									php bin/console make:controller
+									# ou
+									symfony console make:controller
+								</code>
+							</pre>
+						</div>
+						<p>Le contrôleur répond aux requêtes HTTP en renvoyant des réponses appropriées (HTML, JSON, etc.).</p>
+					</section>
+					<section>
+						<img src="ressources/controlleur.png" alt="">
+					</section>
+					<section>
+						<img src="ressources/html_response.png" alt="">
+						<p>On pourrais faire ça</p>
+					</section>
+					<section>
+						<img src="ressources/html_file_response.png" alt="">
+						<p>Ou encore ça</p>
+					</section>
+					<section>
+						<h2>Twig</h2>
+						<p>Mais on vas plutôt utiliser Twig pour générer nos réponses HTML.</p>
+					</section>
+					<section>
+						<p>Twig est un moteur de templates pour PHP qui permet de séparer la logique de présentation de la logique métier.</p>
+					</section>
+					<section>
+						<p>C'est un bundle donc il faut l'installer avec Composer.</p>
+						<div>
+							<pre>
+								<code>composer require symfony/twig-bundle</code>
+							</pre>
+						</div>
+					</section>
+					<section>
+						<pre>
+							<code>
+							my_project/
+								.
+								├── ...
+								├── src/
+								├── templates/ # Fichiers de templates Twig
+								├── var/ 
+								├── ...
+							</code>
+						</pre>
+						<p>Supprimer l'ancien controlleur et recommencer maintenant qu'on a Twig</p>
+					</section>
+					<section>
+						<img src="ressources/new_controller_twig.png" alt="">
+						<img src="ressources/controller_twig.png" alt="">
+						<p>Grâce à la méthode render on peut passer des variables à notre template Twig.</p>
+					</section>
+					<section>
+						<img src="ressources/template_twig.png" alt="">
+						<pre>
+							<code>{% ... %} # syntaxe pour les blocs Twig.</code>
+							<code>{{ ... }} # syntaxe pour afficher des variables.</code>
+						</pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Bloc Twig</h2>
+						<a href="https://twig.symfony.com/doc/3.x/tags/index.html">La documentation</a>
+					</section>
+					<section>
+						<h2>block et extends</h2>
+						<img src="ressources/base_twig.png" alt="">
+					</section>
+					<section>
+						<img src="ressources/template_twig.png" alt="">
+					</section>
+					<section>
+						<h2>include</h2>
+						<img src="ressources/include_twig.png" alt="">
+					</section>
+					<section>
+						<h2>if</h2>
+						<pre>
+							<code>
+								{% if condition %}
+									...
+								{% elseif autre_condition %}
+									...
+								{% else %}
+									...
+								{% endif %}
+							</code>
+						</pre>
+					</section>
+					<section>
+						<pre>
+							<code>
+								{% if app.user %}
+									<p>Bienvenue {{ app.user.name }}</p>
+								{% else %}
+									<p>Veuillez vous connecter.</p>
+								{% endif %}
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>for</h2>
+						<pre>
+							<code>
+								{% for item in items %}
+									...
+								{% else %}
+									...
+								{% endfor %}
+							</code>
+						</pre>
+					</section>
+					<section>
+						<pre>
+							<code>
+								{% for product in products %}
+									{{ product.name }}
+								{% else %}
+									<p>Aucun élément trouvé.</p>
+								{% endfor %}
+							</code>
+						</pre>
+					</section>
+				</section>
+				<section>
+					<h2>A vous !</h2>
+					<ol>
+						<li>Créer un repository pour ce projet.</li>
+						<li>Créer les pages statiques de votre application.</li>
+						<li>Créer une route API qui retourne quelques chose d'intéressant.</li>
+						<li>Documenter les routes.</li>
+					</ol>
+				</section>
 			</div>
 		</div>
 
